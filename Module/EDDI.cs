@@ -2,7 +2,10 @@
 
 namespace AVA.Module
 {
-    class EDDI : IMonitor<InitPluginEvent>, IMonitor<AVA.EDDI.InitialisedEvent>
+    class EDDI : 
+        IMonitor<InitPluginEvent>,
+        IMonitor<AVA.EDDI.InitialisedEvent>,
+        IMonitor<AVA.EDDI.UnhandledEvent>
     {
         public EDDI()
         {
@@ -23,6 +26,11 @@ namespace AVA.Module
                 Audio.Say("Connection to EDDI established."),
                 Audio.Say($"{Properties.SpokenName} online.")
             });
+        }
+
+        public void Handle(AVA.EDDI.UnhandledEvent e)
+        {
+            VA.Log.Debug($"Unhadled EDDI event: {e.Name}");
         }
     }
 }

@@ -105,6 +105,11 @@ namespace AVA.EDDI
         public override string Name { get => "((EDDI shutdown))"; }
     }
 
+    class UnhandledEvent : VA.Event
+    {
+        public override string Name { get => "((EDDI unhandled event))"; }
+    }
+
     static class Events
     {
         public readonly static List<Action> Monitors = new List<Action>
@@ -117,6 +122,7 @@ namespace AVA.EDDI
             () => { new VA.Listener<ShipLoadoutEvent>(); },
             () => { new VA.Listener<ShipRebootedEvent>(); },
             () => { new VA.Listener<ShutdownEvent>(); },
+            () => { new VA.Listener<UnhandledEvent>(); },
         };
     }
 }
