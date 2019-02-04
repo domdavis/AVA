@@ -3,8 +3,10 @@ using System.Collections.Generic;
 
 namespace AVA.EDDI
 {
-    class CommanderContinuedEvent : VA.Event<CommanderContinuedEvent>
+    class CommanderContinuedEvent : VA.Event
     {
+        public override string Name { get => "((EDDI commander continued))"; }
+
         public static readonly string ModeOpen = "Open";
         public static readonly string ModeGroup = "Group";
         public static readonly string ModeSolo = "Solo";
@@ -18,41 +20,37 @@ namespace AVA.EDDI
         public string Mode => value.Get(Mode, nameof(Mode));
         public string Ship => value.Get(Ship, nameof(Ship));
         public int ShipID => value.Get(ShipID, nameof(ShipID));
-
-        public CommanderContinuedEvent() : base("((EDDI commander continued))") { }
-        public override CommanderContinuedEvent Type() { return this; }
     }
 
-    class FileHeaderEvent : VA.Event<FileHeaderEvent>
+    class FileHeaderEvent : VA.Event
     {
+        public override string Name { get => "((EDDI file header))"; }
+
         public string Build => value.Get(Build, nameof(Build));
         public string Version => value.Get(Version, nameof(Version));
-
-        public FileHeaderEvent() : base("((EDDI file header))") { }
-        public override FileHeaderEvent Type() { return this; }
     }
 
-    class FSDEngagedEvent : VA.Event<FSDEngagedEvent>
+    class FSDEngagedEvent : VA.Event
     {
+        public override string Name { get => "((EDDI fsd engaged))"; }
+
         public static readonly string Supercruise = "Supercruise";
         public static readonly string Hyperspace = "Hyperspace";
 
         public string StellarClass => value.Get(StellarClass, nameof(StellarClass));
         public string System => value.Get(System, nameof(System));
         public string Target => value.Get(Target, nameof(Target));
-
-        public FSDEngagedEvent() : base("((EDDI fsd engaged))") { }
-        public override FSDEngagedEvent Type() { return this; }
     }
 
-    class InitialisedEvent : VA.Event<InitialisedEvent>
+    class InitialisedEvent : VA.Event
     {
-        public InitialisedEvent() : base("((EDDI va initialized))") { }
-        public override InitialisedEvent Type() { return this; }
+        public override string Name { get => "((EDDI va initialized))"; }
     }
 
-    class LocationEvent : VA.Event<LocationEvent>
+    class LocationEvent : VA.Event
     {
+        public override string Name { get => "((EDDI location))"; }
+
         public string Allegiance => value.Get(Allegiance, nameof(Allegiance));
         public string Body => value.Get(Body, nameof(Body));
         public string BodyType => value.Get(BodyType, nameof(BodyType));
@@ -78,13 +76,12 @@ namespace AVA.EDDI
         public decimal X => value.Get(X, nameof(X));
         public decimal Y => value.Get(Y, nameof(Y));
         public decimal Z => value.Get(Z, nameof(Z));
-
-        public LocationEvent() : base("((EDDI location))") { }
-        public override LocationEvent Type() { return this; }
     }
 
-    class ShipLoadoutEvent : VA.Event<ShipLoadoutEvent>
+    class ShipLoadoutEvent : VA.Event
     {
+        public override string Name { get => "((EDDI ship loadout)))"; }
+
         public bool Hot => value.Get(Hot, nameof(Hot));
         public decimal HullHealth => value.Get(HullHealth, nameof(HullHealth));
         public decimal HullValue => value.Get(HullValue, nameof(HullValue));
@@ -96,35 +93,30 @@ namespace AVA.EDDI
         public string ShipIdent => value.Get(ShipIdent, nameof(ShipIdent));
         public string ShipName => value.Get(ShipName, nameof(ShipName));
         public decimal Value => value.Get(Value, nameof(Value));
-
-        public ShipLoadoutEvent() : base("((EDDI ship loadout))") { }
-        public override ShipLoadoutEvent Type() { return this; }
     }
 
-    class ShipRebootedEvent : VA.Event<ShipRebootedEvent>
+    class ShipRebootedEvent : VA.Event
     {
-        public ShipRebootedEvent() : base("((EDDI ship rebooted))") { }
-        public override ShipRebootedEvent Type() { return this; }
+        public override string Name { get => "((EDDI ship rebooted))"; }
     }
 
-    class ShutdownEvent : VA.Event<ShutdownEvent>
+    class ShutdownEvent : VA.Event
     {
-        public ShutdownEvent() : base("((EDDI shutdown))") { }
-        public override ShutdownEvent Type() { return this; }
+        public override string Name { get => "((EDDI shutdown))"; }
     }
 
     static class Events
     {
         public readonly static List<Action> Monitors = new List<Action>
         {
-            () => { new CommanderContinuedEvent(); },
-            () => { new FileHeaderEvent(); },
-            () => { new FSDEngagedEvent(); },
-            () => { new InitialisedEvent(); },
-            () => { new LocationEvent(); },
-            () => { new ShipLoadoutEvent(); },
-            () => { new ShipRebootedEvent(); },
-            () => { new ShutdownEvent(); },
+            () => { new VA.Listener<CommanderContinuedEvent>(); },
+            () => { new VA.Listener<FileHeaderEvent>(); },
+            () => { new VA.Listener<FSDEngagedEvent>(); },
+            () => { new VA.Listener<InitialisedEvent>(); },
+            () => { new VA.Listener<LocationEvent>(); },
+            () => { new VA.Listener<ShipLoadoutEvent>(); },
+            () => { new VA.Listener<ShipRebootedEvent>(); },
+            () => { new VA.Listener<ShutdownEvent>(); },
         };
     }
 }

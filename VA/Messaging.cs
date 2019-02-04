@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace AVA.VA
 {
@@ -24,7 +25,12 @@ namespace AVA.VA
         {
             this.voiceAttack = voiceAttack;
             string name = voiceAttack.Context();
-            foreach (KeyValuePair<string, string> replacement in replacements) name = name.Replace(replacement.Key, replacement.Value);
+
+            foreach (KeyValuePair<string, string> replacement in replacements)
+            {
+                name = name.Replace(replacement.Key, replacement.Value);
+            }
+
             Name = name;
             scope = name.Replace("((", "").Replace("))", "");
             
@@ -51,18 +57,22 @@ namespace AVA.VA
         }
     }
 
-    abstract class Event<T> : Dispatchable<T>, IMonitor
+    class Listener<T> : IMonitor where T : Event, new()
     {
-        protected Value value = new Value();
+        public Listener() { Dispatcher.Instance.Register(new T().Name, this); }
 
-        public Event(string msg) { Dispatcher.Instance.Register(msg, this); }
-        public abstract T Type();
-
-        public void Handle(Message msg)
-        {
-            value.Set(msg);
-            Dispatch(Type());
+        public void Handle(Message msg) {
+            T e = new T();
+            e.Handle(msg);
+            Dispatcher<T>.Instance.Dispatch(e);
         }
+    }
+
+    abstract class Event
+    {
+        public abstract string Name { get; }
+        protected Value value = new Value();
+        public void Handle(Message msg) { value.Set(msg); }
     }
     
 }
