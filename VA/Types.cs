@@ -39,35 +39,30 @@ namespace AVA.VA
 
     class Value
     {
-        private readonly IDictionary<string, Type> registered = new Dictionary<string, Type>();
+        public Message msg;
 
-        public bool Get(bool _, string name)
+        public bool Bool(string name)
         {
-            if (!registered.ContainsKey(name)) registered[name] = new Bool(name);
-            return ((Bool)registered[name]).Value;
+            if (msg == null) return false;
+            return msg.Bool(name);
         }
 
-        public int Get(int _, string name)
+        public int Int(string name)
         {
-            if (!registered.ContainsKey(name)) registered[name] = new Int(name);
-            return ((Int)registered[name]).Value;
+            if (msg == null) return 0;
+            return msg.Int(name);
         }
 
-        public decimal Get(decimal _, string name)
+        public decimal Decimal(string name)
         {
-            if (!registered.ContainsKey(name)) registered[name] = new Decimal(name);
-            return ((Decimal)registered[name]).Value;
+            if (msg == null) return 0;
+            return msg.Decimal(name);
         }
 
-        public string Get(string _, string name)
+        public string String(string name)
         {
-            if (!registered.ContainsKey(name)) registered[name] = new String(name);
-            return ((String)registered[name]).Value;
-        }
-
-        public void Set(Message msg)
-        {
-            foreach (Type value in registered.Values) value.Handle(msg);
+            if (msg == null) return "";
+            return msg.String(name);
         }
     }
 }

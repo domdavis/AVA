@@ -14,7 +14,7 @@ namespace AVA
         {
            () => { return new Audio(); },
            () => { return new Module.EDDI(); },
-           () => { return new Module.Navigation(); },
+           () => { return new Module.FSD(); },
            () => { return new Module.Session(); },
         };
 

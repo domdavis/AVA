@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace AVA.VA
 {
@@ -59,7 +58,7 @@ namespace AVA.VA
 
     class Listener<T> : IMonitor where T : Event, new()
     {
-        public Listener() { Dispatcher.Instance.Register(new T().Name, this); }
+        public Listener() { Dispatcher.Instance.Register(new T().Type, this); }
 
         public void Handle(Message msg) {
             T e = new T();
@@ -70,9 +69,9 @@ namespace AVA.VA
 
     abstract class Event
     {
-        public abstract string Name { get; }
+        public abstract string Type { get; }
         protected Value value = new Value();
-        public void Handle(Message msg) { value.Set(msg); }
+        public void Handle(Message msg) { value.msg = msg; }
     }
     
 }

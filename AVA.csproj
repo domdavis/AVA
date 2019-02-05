@@ -57,7 +57,7 @@
     <Compile Include="EDDI\Proxy.cs" />
     <Compile Include="Module\EDDI.cs" />
     <Compile Include="Properties.cs" />
-    <Compile Include="Module\Navigation.cs" />
+    <Compile Include="Module\FSD.cs" />
     <Compile Include="Module\Session.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

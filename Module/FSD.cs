@@ -3,13 +3,20 @@ using System.Linq;
 
 namespace AVA.Module
 {
-    class Navigation : IMonitor<AVA.EDDI.FSDEngagedEvent>
+    class FSD :
+        IMonitor<AVA.EDDI.EnteredNormalSpaceEvent>,
+        IMonitor<AVA.EDDI.EnteredSupercruiseEvent>,
+        IMonitor<AVA.EDDI.FSDEngagedEvent>,
+        IMonitor<AVA.EDDI.JumpedEvent>,
+        IMonitor<AVA.EDDI.ShipFSDEvent>
     {
-        public Navigation()
+        public FSD()
         {
             Dispatcher<AVA.EDDI.FSDEngagedEvent>.Instance.Add(this);
         }
 
+        public void Handle(AVA.EDDI.EnteredNormalSpaceEvent e) { VA.Log.Debug($"Supercruise: {e.BodyType}: {e.Body}"); }
+        public void Handle(AVA.EDDI.EnteredSupercruiseEvent _) { }
         public void Handle(AVA.EDDI.FSDEngagedEvent e)
         {
             if (e.Target != AVA.EDDI.FSDEngagedEvent.Hyperspace) { return; }
@@ -27,6 +34,13 @@ namespace AVA.Module
 
             Audio.PlaySounds(sounds);
         }
+
+        public void Handle(AVA.EDDI.JumpedEvent e)
+        {
+            VA.Log.Debug($"Jumped to {e.System} ({e.X}, {e.Y}, {e.Z}). Used {e.FuelUsed}, remaining {e.FuelRemaining}");
+        }
+
+        public void Handle(AVA.EDDI.ShipFSDEvent _) { }
 
         bool Scoopable(string stellarclass)
         {
