@@ -11,6 +11,7 @@ namespace AVA.VA
         static ConcurrentDictionary<string, byte> warnings = new ConcurrentDictionary<string, byte>();
 
         public static Proxy Global;
+        public static Proxy Latest;
 
         public Proxy(dynamic vaProxy) { this.vaProxy = vaProxy; }
 

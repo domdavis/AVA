@@ -170,6 +170,20 @@ namespace AVA.EDDI
         public override string Type { get => "((EDDI ship rebooted))"; }
     }
 
+    class ShipRefuelledEvent : VA.Event
+    {
+        public override string Type { get => "((EDDI ship refuelled))"; }
+
+        public static readonly string Market = "Market";
+        public static readonly string Scoop = "Scoop";
+
+        public decimal Amount => value.Decimal(nameof(Amount));
+        public bool Full => value.Bool(nameof(Full));
+        public decimal Price => value.Decimal(nameof(Price));
+        public string Source => value.String(nameof(Source));
+        public decimal Total => value.Decimal(nameof(Total));
+    }
+
     class ShutdownEvent : VA.Event
     {
         public override string Type { get => "((EDDI shutdown))"; }
@@ -197,6 +211,7 @@ namespace AVA.EDDI
             () => { new VA.Listener<ShipFSDEvent>(); },
             () => { new VA.Listener<ShipLoadoutEvent>(); },
             () => { new VA.Listener<ShipRebootedEvent>(); },
+            () => { new VA.Listener<ShipRefuelledEvent>(); },
             () => { new VA.Listener<ShutdownEvent>(); },
             () => { new VA.Listener<UnhandledEvent>(); },
         };

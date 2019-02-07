@@ -16,6 +16,7 @@ namespace AVA
         public static void VA_Init1(dynamic vaProxy)
         {
             VA.Proxy.Global = new VA.Proxy(vaProxy);
+            VA.Proxy.Latest = VA.Proxy.Global;
             VA.Log.Debug($"Registering {EDDI.Events.Monitors.Count} EDDI Monitors");
             foreach (Action register in EDDI.Events.Monitors) register();
             foreach (Func<IModule> register in Properties.modules) VA.Log.Debug($"Loading {register().GetType()}");
@@ -32,6 +33,7 @@ namespace AVA
         public static void VA_Invoke1(dynamic vaProxy)
         {
             VA.Proxy proxy = new VA.Proxy(vaProxy);
+            VA.Proxy.Latest = proxy;
             VA.Dispatcher.Instance.Dispatch(new VA.Message(proxy));
         }
     }
